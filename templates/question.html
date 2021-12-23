@@ -1,0 +1,15 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="container">
+    QUESTION!!! <br>
+    {{ question.title }}<br>
+    {{ question.text }}<br><br>
+
+    {% for answer in answers %}
+    text: {{ answer.text }}<br>
+    author: {{ answer.author }}<br>
+    date: {{ answer.added_at }}<br><br>
+    {% endfor %}
+</div>
+{% endblock content %}

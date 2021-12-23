@@ -1,0 +1,28 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="container">
+    POPULAR PAGE.
+    <br>
+    {% for question in page %}
+    {{ question.title }}
+    <br>
+    <a href="/question/{{ question.id }}/"> {{ question.text|slice:":35" }} {% if question.text|length > 35 %}...{% endif %} </a>
+    <br><br>
+    {% endfor %}
+    <nav>
+        <ul class="pagination" style="display:flex; list-style:none;">
+        {% for p in paginator.page_range %}
+        {% if p == page.number %}
+        <li class="active">
+        {% else %}
+            <li>
+        {% endif %}
+                <a href="?page={{ p }}"> {{ p }} </a>
+            </li>
+        {% endfor %}
+        </ul>
+    </nav>
+
+</div>
+{% endblock content %}

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" lang="en">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>blank django project</title>
+	{% block css %}
+	{% endblock %}
+
+	{% block head_scripts %}
+	{% endblock %}
+</head>
+<body>
+	<header>
+		{% block header %}
+		{% endblock %}
+	</header>
+	<div id="wrapper">
+		{% block content %}
+		{% endblock %}
+	</div>
+	<footer>
+		{% block footer %}
+		{% endblock %}
+	</footer>
+
+	{% block scripts %}
+	{% endblock %}
+</body>
+</html>

@@ -15,17 +15,20 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
+from django.views.generic import RedirectView
 
-from qa.views import test, index
+from qa.views import test, index, question, popular
 
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', index, name='index'),
+    # url(r'^(?P<slug>[\w-]+)/$', page, name='index'),    # for http://127.0.0.1:8000/2/
     url(r'^login/', test, name='login'),
     url(r'^signup/', test, name='signup'),
-    url(r'^question/[0-9]+/', test, name='question'),
+    url(r'^question/([0-9]+)/', question, name='question'),
     url(r'^ask/', test, name='ask'),
-    url(r'^popular/', test, name='popular'),
-    url(r'^new/', test, name='new')
+    url(r'^popular/', popular, name='popular'),
+    url(r'^new/', test, name='new'),
+    url(r'^favicon\.ico$', RedirectView.as_view(url='/static/favicon.ico')),
 ]

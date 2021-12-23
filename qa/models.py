@@ -6,10 +6,10 @@ from django.contrib.auth.models import User
 
 class QuestionManager(models.Manager):
     def new(self):
-        pass
+        return self.order_by('-id')
 
     def popular(self):
-        pass
+        return self.order_by('-rating')
 
 
 class Question(models.Model):
@@ -25,11 +25,11 @@ class Question(models.Model):
     def __unicode__(self):
         return self.title
 
-    def new(self):
-        return self.order_by('-added_at')
-
-    def popular(self):
-        return self.order_by('-rating')
+    # def new(self):
+    #     return self.order_by('-added_at')
+    #
+    # def popular(self):
+    #     return self.order_by('-rating')
 
 
 class Answer(models.Model):

@@ -1,0 +1,26 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="container">
+    INDEX PAGE
+    <br>
+    {% for question in page %}
+    {{ question.title }}<br>
+    {{ question.text }}<br><br>
+    {% endfor %}
+    <nav>
+        <ul class="pagination" style="display:flex; list-style:none;">
+        {% for p in paginator.page_range %}
+        {% if p == page.number %}
+        <li class="active">
+        {% else %}
+            <li>
+        {% endif %}
+                <a href="?page={{ p }}"> {{ p }} </a>
+            </li>
+        {% endfor %}
+        </ul>
+    </nav>
+
+</div>
+{% endblock content %}

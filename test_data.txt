@@ -1,0 +1,13 @@
+# запускаем оболочку
+python manage.py shell
+
+# далее генерим данные
+from autofixture import AutoFixture
+from qa.models import Answer
+
+fixture = AutoFixture(Answer, generate_fk=True)
+entries = fixture.create(10)
+
+
+# другой вариант создания данных (но при этом не создаются пользователи):
+python manage.py loadtestdata qa.Question:20 qa.Answer:50
