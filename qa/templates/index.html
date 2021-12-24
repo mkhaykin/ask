@@ -5,8 +5,10 @@
     INDEX PAGE
     <br>
     {% for question in page %}
-    {{ question.title }}<br>
-    {{ question.text }}<br><br>
+    id: {{ question.id }}<br>
+    title: {{ question.title }}<br>
+    text: {{ question.text }}<br>
+    date: {{ question.added_at }}<br>
     {% endfor %}
     <nav>
         <ul class="pagination" style="display:flex; list-style:none;">

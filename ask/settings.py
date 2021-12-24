@@ -55,7 +55,7 @@ ROOT_URLCONF = 'ask.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR + '/templates'],
+        'DIRS': [], # BASE_DIR + '/templates'
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -80,9 +80,11 @@ WSGI_APPLICATION = 'ask.wsgi.application'
 #     }
 # }
 
-import pymysql
-pymysql.install_as_MySQLdb()
-
+try:
+    import pymysql
+    pymysql.install_as_MySQLdb()
+except:
+    pass
 
 DATABASES = {
     'default': {
