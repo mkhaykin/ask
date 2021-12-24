@@ -3,9 +3,10 @@
 {% block content %}
 <div class="container">
     QUESTION!!! <br>
+    {{ question.pk }}<br>
     {{ question.title }}<br>
     {{ question.text }}<br><br>
-
+    ANSWERS!!!
     {% for answer in answers %}
     text: {{ answer.text }}<br>
     author: {{ answer.author }}<br>
