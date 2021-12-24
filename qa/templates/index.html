@@ -9,6 +9,7 @@
     title: {{ question.title }}<br>
     text: {{ question.text }}<br>
     date: {{ question.added_at }}<br>
+    <a href="/question/{{ question.id }}/"> {{ question.text|slice:":35" }} {% if question.text|length > 35 %}...{% endif %} </a><br>
     {% endfor %}
     <nav>
         <ul class="pagination" style="display:flex; list-style:none;">
