@@ -1,10 +1,11 @@
 from django.http import Http404
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 from models import *
+from forms import *
 
 
 def test(request, *args, **kwargs):
@@ -47,13 +48,39 @@ def question(request, id):
     try:
         q = Question.objects.get(id=id)
         a = Answer.objects.all()
+        if request.method == "POST":
+            form = AnswerForm(request.POST)
+            if form.is_valid():
+                form.save(q)
+                form = AnswerForm()
+        else:
+            form = AnswerForm()
     except Question.DoesNotExist:
         raise Http404
     return render(request, 'question.html', {
-        'id': 1,
+        'id': id,
         'question': q,
         'answers': a,
+        'form': form
     })
+
+
+def ask(request):
+    # HttpResponseRedirect('/ /question/...123.../')
+    # return HttpResponse('ask')
+    if request.method == "POST":
+        form = AskForm(request.POST)
+        if form.is_valid():
+            post = form.save()
+            url = post.get_url()
+            return HttpResponseRedirect(url)
+    else:
+        form = AskForm()
+    return render(request, 'ask.html', {
+        'form': form
+    })
+
+    return render(request, 'ask.html', form=form)
 
 
 def popular(request):

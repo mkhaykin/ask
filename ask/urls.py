@@ -17,7 +17,7 @@ from django.conf.urls import url
 from django.contrib import admin
 from django.views.generic import RedirectView
 
-from qa.views import test, index, question, popular
+from qa.views import test, index, question, popular, ask
 
 
 urlpatterns = [
@@ -27,7 +27,7 @@ urlpatterns = [
     url(r'^login/', test, name='login'),
     url(r'^signup/', test, name='signup'),
     url(r'^question/([0-9]+)/', question, name='question'),
-    url(r'^ask/', test, name='ask'),
+    url(r'^ask/', ask, name='ask'),
     url(r'^popular/', popular, name='popular'),
     url(r'^new/', test, name='new'),
     url(r'^favicon\.ico$', RedirectView.as_view(url='/static/favicon.ico')),

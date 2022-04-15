@@ -25,6 +25,9 @@ class Question(models.Model):
     def __unicode__(self):
         return self.title
 
+    def get_url(self):
+        return "/question" + "/" + str(self.pk)
+
     # def new(self):
     #     return self.order_by('-added_at')
     #
