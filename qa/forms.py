@@ -36,6 +36,8 @@ class AskForm(forms.Form):
 class AnswerForm(forms.Form):
     title = forms.CharField(max_length=100)
     text = forms.CharField(widget=forms.Textarea)
+    # TODO: drop later
+    question = forms.IntegerField()
 
     def save(self, question):
         answer = Answer()
