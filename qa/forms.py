@@ -28,7 +28,9 @@ class AskForm(forms.Form):
         cd = self.cleaned_data
         ask.title = cd['title']
         ask.text = cd['text']
-        ask.author = User.objects.get(pk=1)
+        # TODO: fix
+        ask.author = 1
+        # ask.author = User.objects.get(pk=1)
         ask.save()
         return ask
 
@@ -47,6 +49,7 @@ class AnswerForm(forms.Form):
         answer.title = cd['title']
         answer.text = cd['text']
         answer.author = 1
+        # TODO: fix
         # answer.author = User.objects.get(pk=1)
 
         answer.save()
