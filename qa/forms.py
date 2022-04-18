@@ -46,7 +46,8 @@ class AnswerForm(forms.Form):
         answer.question = question
         answer.title = cd['title']
         answer.text = cd['text']
-        answer.author = User.objects.get(pk=1)
+        answer.author = 1
+        # answer.author = User.objects.get(pk=1)
 
         answer.save()
         return answer
