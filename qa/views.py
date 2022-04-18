@@ -54,7 +54,7 @@ def question(request, id):
                 form.save(q)
                 form = AnswerForm()
         else:
-            form = AnswerForm()
+            form = AnswerForm(initial={'question': q.id})
     except Question.DoesNotExist:
         raise Http404
     return render(request, 'question.html', {
