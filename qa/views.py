@@ -52,7 +52,7 @@ def question(request, id):
             form = AnswerForm(request.POST)
             if form.is_valid():
                 form.save(q)
-                form = AnswerForm()
+                form = AnswerForm(initial={'question': q.id})
         else:
             form = AnswerForm(initial={'question': q.id})
     except Question.DoesNotExist:
@@ -79,8 +79,6 @@ def ask(request):
     return render(request, 'ask.html', {
         'form': form
     })
-
-    return render(request, 'ask.html', form=form)
 
 
 def popular(request):
