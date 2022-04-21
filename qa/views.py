@@ -9,6 +9,8 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
 
+from datetime import datetime, timedelta
+
 from models import *
 from forms import *
 
@@ -143,7 +145,12 @@ def signup(request):
                 user = authenticate(username=username, password=password)
                 django_login(request, user)
                 # request.user.sessionid = request.COOKIES.get('sessionid', None)
-                return HttpResponseRedirect("/")
+                response = HttpResponseRedirect("/")
+                response.set_cookie("sessionid",
+                                    request.COOKIES.get('sessionid', None),
+                                    httponly=True,
+                                    expires=datetime.now() + timedelta(days=5))
+                return response
     else:
         form = SignUpForm()
     return render(request, 'signup.html', {
@@ -161,10 +168,15 @@ def login(request):
             if user is not None:
                 if user.is_active:
                     django_login(request, user)
-                    request.user.sessionid = request.COOKIES.get('sessionid', None)
-                    print(request.user.sessionid)
+                    # request.user.sessionid = request.COOKIES.get('sessionid', None)
+                    response = HttpResponseRedirect("/")
+                    response.set_cookie("sessionid",
+                                        request.COOKIES.get('sessionid', None),
+                                        httponly=True,
+                                        expires=datetime.now() + timedelta(days=5))
+
                     # Redirect to a success page.
-                    return HttpResponseRedirect("/")
+                    return response
                     # response = HttpResponseRedirect("/")
                     # response.set_cookie('sessionid', sessid,
                     #                 domain='.site.com', httponly=True,
