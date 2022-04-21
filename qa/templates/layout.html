@@ -16,6 +16,14 @@
 		{% endblock %}
 	</header>
 	<div id="wrapper">
+		{% if user.is_authenticated %}
+    	<p>Welcome, {{ user.get_username }}. Thanks for logging in.</p>
+		<p><a href="{% url 'logout' %}">Log Out</a></p>
+		{% else %}
+		<p></p><a href="{% url 'login' %}">Login</a></p>
+		{% endif %}
+		<p>session id: "{{ user.sessionid }}"</p>
+    <br>
 		{% block content %}
 		{% endblock %}
 	</div>

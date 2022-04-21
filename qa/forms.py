@@ -28,7 +28,8 @@ class AskForm(forms.Form):
         cd = self.cleaned_data
         ask.title = cd['title']
         ask.text = cd['text']
-        ask.author = User.objects.get(pk=1)
+        ask.author = self._user     # User.objects.get(pk=1)
+
         ask.save()
         return ask
 
@@ -46,7 +47,19 @@ class AnswerForm(forms.Form):
         answer.question = question
         answer.title = cd['title']
         answer.text = cd['text']
-        answer.author = User.objects.get(pk=1)
+        answer.author = self._user  # User.objects.get(pk=1)
+        print(self._user, '/', answer.author)
 
         answer.save()
         return answer
+
+
+class SignUpForm(forms.Form):
+    username = forms.CharField(max_length=100)
+    email = forms.CharField(max_length=100)
+    password = forms.CharField(max_length=100)
+
+
+class LoginForm(forms.Form):
+    username = forms.CharField(max_length=100)
+    password = forms.CharField(max_length=100)

@@ -2,11 +2,15 @@
 
 {% block content %}
 <div class="container">
-    QUESTION!!! <br>
+    QUESTION!!!
+    <hr/>
     {{ question.pk }}<br>
     {{ question.title }}<br>
-    {{ question.text }}<br><br>
+    {{ question.text }}<br>
+    {{ question.author }}<br><br>
+    <hr/>
     ANSWERS!!!
+    <hr/>
     {% for answer in answers %}
     text: {{ answer.text }}<br>
     author: {{ answer.author }}<br>

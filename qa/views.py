@@ -1,8 +1,13 @@
 from django.http import Http404
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
-
+from django.contrib.auth import authenticate, \
+    login as django_login, \
+    logout as django_logout
+from django.forms.forms import NON_FIELD_ERRORS
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.contrib.auth.models import User
+from django.core.exceptions import ObjectDoesNotExist
 
 from models import *
 from forms import *
@@ -47,10 +52,13 @@ def index(request):  # , *args, **kwargs):
 def question(request, id):
     try:
         q = Question.objects.get(id=id)
-        a = Answer.objects.all()
+        # a = Answer.objects.get(question=id)
+        a = q.answer_set.all()
+        print(a)
         if request.method == "POST":
             form = AnswerForm(request.POST)
             if form.is_valid():
+                form._user = request.user
                 form.save(q)
                 form = AnswerForm(initial={'question': q.id})
         else:
@@ -70,6 +78,7 @@ def ask(request):
     # return HttpResponse('ask')
     if request.method == "POST":
         form = AskForm(request.POST)
+        form._user = request.user
         if form.is_valid():
             post = form.save()
             url = post.get_url()
@@ -110,3 +119,70 @@ def popular(request):
     return render(request, 'popular.html',
                   {"paginator": paginator,
                    "page": page})
+
+
+def signup(request):
+    if request.method == "POST":
+        form = SignUpForm(request.POST)
+        if form.is_valid():
+            username = request.POST['username']
+            email = request.POST['email']
+            password = request.POST['password']
+            try:
+                # u = User.objects.get(username=username)
+                u = User.objects.filter(username=username)
+            except User.DoesNotExist, e:
+                u = None
+            # if User.objects.filter(username=username).exists():
+            if u:
+                form.errors[NON_FIELD_ERRORS] = form.error_class(['account already exists.'])
+            else:
+                user = User.objects.create_user(username, email, password)
+                user.save()
+                return HttpResponseRedirect("/")
+    else:
+        form = SignUpForm()
+    return render(request, 'signup.html', {
+        'form': form
+    })
+
+
+def login(request):
+    if request.method == "POST":
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            username = request.POST['username']
+            password = request.POST['password']
+            user = authenticate(username=username, password=password)
+            if user is not None:
+                if user.is_active:
+                    django_login(request, user)
+                    request.user.sessionid = request.COOKIES.get('sessionid', None)
+                    print(request.user.sessionid)
+                    # Redirect to a success page.
+                    return HttpResponseRedirect("/")
+                    # response = HttpResponseRedirect("/")
+                    # response.set_cookie('sessionid', sessid,
+                    #                 domain='.site.com', httponly=True,
+                    #                 expires=datetime.now() + timedelta(days=5)
+                    #                 )
+                    # return response
+                else:
+                    # Return a 'disabled account' error message
+                    form.errors[NON_FIELD_ERRORS] = form.error_class(['your account is disabled.'])
+            else:
+                # Return an 'invalid login' error message.
+                form.errors[NON_FIELD_ERRORS] = form.error_class(['your login or password is invalid.'])
+    else:
+        form = LoginForm()
+
+    return render(request, 'login.html', {
+        'form': form
+    })
+
+
+def logout(request):
+    # FIXME ... only post request ;)
+    django_logout(request)
+    # TODO: clear user.sessionid ?
+    return HttpResponseRedirect("/")

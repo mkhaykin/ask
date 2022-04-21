@@ -17,15 +17,17 @@ from django.conf.urls import url
 from django.contrib import admin
 from django.views.generic import RedirectView
 
-from qa.views import test, index, question, popular, ask
+from qa.views import index, question, popular, ask, signup, login, logout
+from qa.views import test
 
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', index, name='index'),
     # url(r'^(?P<slug>[\w-]+)/$', page, name='index'),    # for http://127.0.0.1:8000/2/
-    url(r'^login/', test, name='login'),
-    url(r'^signup/', test, name='signup'),
+    url(r'^login/', login, name='login'),
+    url(r'^logout/', logout, name='logout'),
+    url(r'^signup/', signup, name='signup'),
     url(r'^question/([0-9]+)/', question, name='question'),
     url(r'^ask/', ask, name='ask'),
     url(r'^popular/', popular, name='popular'),
