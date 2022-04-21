@@ -139,6 +139,10 @@ def signup(request):
             else:
                 user = User.objects.create_user(username, email, password)
                 user.save()
+                # login!
+                user = authenticate(username=username, password=password)
+                django_login(request, user)
+                # request.user.sessionid = request.COOKIES.get('sessionid', None)
                 return HttpResponseRedirect("/")
     else:
         form = SignUpForm()
